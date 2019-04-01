@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Chart.js </title>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Tweet Sentiment "{{keyword}}"</h1>
+            <p class="lead">This is a simple app that display the latest tweets about [{{keyword}}].</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s4 offset-s2">
+            <div class="card">
+                <div class="card-content white-text">
+                    <span class="card-title grey-text text-darken-4 center-align">Score</span>
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card">
+                <div class="card-content white-text">
+                    <span class="card-title grey-text text-darken-4 center-align">Magnitude</span>
+                    <canvas id="canvas2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var dsScore = {
+			datasets: [
+            {% for score,magnitude,timestamp,text in tweets %}
+                {
+                    data: [{
+                        x: new Date('{{timestamp}}'),
+                        y: {{score}},
+                        borderColor: window.chartColors.red,
+                        backgroundColor: window.chartColors.red,
+                    }],
+                    label: "{{text}}"
+                },
+            {% endfor %}
+            ]
+        }
+        var dsMagnitude = {
+			datasets: [
+            {% for score,magnitude,timestamp,text in tweets %}
+                {
+                    data: [{
+                        x: new Date('{{timestamp}}'),
+                        y: {{magnitude}},
+                        borderColor: window.chartColors.red,
+                        backgroundColor: window.chartColors.red,
+                    }],
+                    label: "{{text}}"
+                },
+            {% endfor %}
+            ]
+        }
+
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myScatter = Chart.Scatter(ctx, {
+            type: 'scatter',
+            data: dsScore,
+            options: {
+                legend: {
+                        display: false
+                    },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'linear',
+                        display: true,
+                    }],
+                }
+            }
+        });
+            var ctx2 = document.getElementById("canvas2").getContext("2d");
+            window.myScatter = Chart.Scatter(ctx2, {
+            type: 'scatter',
+            data: dsMagnitude,
+            options: {
+                legend: {
+                        display: false
+                    },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        type: 'time',
+                        distribution: 'linear',
+                    }],
+                }
+            }
+        });
+        };
+    </script>
+</body>
+</html>
