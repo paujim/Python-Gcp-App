@@ -39,11 +39,11 @@
 			datasets: [
             {% for score,magnitude,timestamp,text in tweets %}
                 {
+                    borderColor: window.chartColors.red,
+                    backgroundColor: window.chartColors.red,
                     data: [{
                         x: new Date('{{timestamp}}'),
                         y: {{score}},
-                        borderColor: window.chartColors.red,
-                        backgroundColor: window.chartColors.red,
                     }],
                     label: "{{text}}"
                 },
@@ -54,11 +54,11 @@
 			datasets: [
             {% for score,magnitude,timestamp,text in tweets %}
                 {
+                    borderColor: window.chartColors.red,
+                    backgroundColor: window.chartColors.red,
                     data: [{
                         x: new Date('{{timestamp}}'),
                         y: {{magnitude}},
-                        borderColor: window.chartColors.red,
-                        backgroundColor: window.chartColors.red,
                     }],
                     label: "{{text}}"
                 },
@@ -72,6 +72,15 @@
             type: 'scatter',
             data: dsScore,
             options: {
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                label += ' [' + tooltipItem.yLabel + ']';
+                                return label;
+                        }
+                    }
+                },
                 legend: {
                         display: false
                     },
@@ -90,6 +99,15 @@
             type: 'scatter',
             data: dsMagnitude,
             options: {
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                label += ' [' + tooltipItem.yLabel + ']';
+                                return label;
+                        }
+                    }
+                },
                 legend: {
                         display: false
                     },
