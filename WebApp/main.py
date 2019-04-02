@@ -39,10 +39,24 @@ def fetch_data():
     return result
 
 
+def classify_sentiment(tweets):
+    score = sum(s for (s, m, t, tx) in tweets) / len(tweets)
+    if score >= 0.25:
+        return "Clearly Positive"
+    if score >= 0.10:
+        return "Positive"
+    if score < 0.10 and score > -0.10:
+        return "Neutral"
+    if score <= -0.10:
+        return "Negative"
+    if score <= -0.25:
+        return "Clearly Negative"
+
+
 @app.route("/")
 def chart():
     tweets = fetch_data()
-    return render_template('chart.html', tweets=tweets, keyword="dogs")
+    return render_template('chart.html', tweets=tweets, keyword="dogs", sentiment=classify_sentiment(tweets))
 
 
 if __name__ == "__main__":
