@@ -31,7 +31,6 @@ class Tweets(db.Model):
 
 def fetch_data():
     tweets = Tweets.query.group_by(Tweets.timestamp, Tweets.text).order_by(Tweets.timestamp.desc()).limit(5).all()
-
     result = []
     for tweet in tweets:
         result.append((tweet.sentiment_score, tweet.sentiment_magnitude, tweet.timestamp, tweet.text))
@@ -40,6 +39,8 @@ def fetch_data():
 
 
 def classify_sentiment(tweets):
+    if tweets is None:
+        return "Not Available"
     score = sum(s for (s, m, t, tx) in tweets) / len(tweets)
     if score >= 0.25:
         return "Clearly Positive"
@@ -47,10 +48,10 @@ def classify_sentiment(tweets):
         return "Positive"
     if score < 0.10 and score > -0.10:
         return "Neutral"
-    if score <= -0.10:
-        return "Negative"
     if score <= -0.25:
         return "Clearly Negative"
+    if score <= -0.10:
+        return "Negative"
 
 
 @app.route("/")
