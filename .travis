@@ -1,0 +1,7 @@
+language: python
+# command to install dependencies
+install:
+  - pip install -r WebApp/requirements.txt
+# command to run tests
+script:
+  - pytest -q WebApp/test_main.py
