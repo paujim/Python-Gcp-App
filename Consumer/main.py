@@ -4,21 +4,25 @@ import base64
 from google.cloud.language import enums
 from google.cloud.language import types
 import os
-import logging
 from flask_sqlalchemy import SQLAlchemy
 import dateutil.parser
 
+
+def gen_connection_string():
+    if not os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
+        return 'mysql+pymysql://user:password@127.0.0.1:3306/tweet'
+    else:
+        return os.environ['SQLALCHEMY_DATABASE_URI']
+
+
 app = Flask(__name__)
-
-logger = logging.getLogger()
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+app.config['SQLALCHEMY_DATABASE_URI'] = gen_connection_string()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 
-class Tweets(db.Model):
+class Tweet(db.Model):
+    __tablename__ = 'tweets'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255))
     keyword = db.Column(db.String(255))
@@ -52,7 +56,7 @@ def insert_tweet(text, keyword, timestamp_in_text, location, score, magnitude):
     if timestamp_in_text is not None:
         timestamp = dateutil.parser.parse(timestamp_in_text)
 
-    tweet = Tweets(text=text, keyword=keyword, timestamp=timestamp, location=location, score=score, magnitude=magnitude)
+    tweet = Tweet(text=text, keyword=keyword, timestamp=timestamp, location=location, score=score, magnitude=magnitude)
     db.session.add(tweet)
     db.session.commit()
 
