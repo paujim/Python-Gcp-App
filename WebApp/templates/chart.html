@@ -38,30 +38,30 @@
     <script>
         var dsScore = {
 			datasets: [
-            {% for score,magnitude,timestamp,text in tweets %}
+            {% for item in tweets %}
                 {
                     borderColor: window.chartColors.red,
                     backgroundColor: window.chartColors.red,
                     data: [{
-                        x: new Date('{{timestamp}}'),
-                        y: {{score}},
+                        x: new Date('{{item['timestamp']}}'),
+                        y: {{item['score']}},
                     }],
-                    label: "{{text}}"
+                    label: "{{item['text']}}"
                 },
             {% endfor %}
             ]
         }
         var dsMagnitude = {
 			datasets: [
-            {% for score,magnitude,timestamp,text in tweets %}
+            {% for item in tweets %}
                 {
                     borderColor: window.chartColors.red,
                     backgroundColor: window.chartColors.red,
                     data: [{
-                        x: new Date('{{timestamp}}'),
-                        y: {{magnitude}},
+                        x: new Date('{{item['timestamp']}}'),
+                        y: {{item['magnitude']}},
                     }],
-                    label: "{{text}}"
+                    label: "{{item['text']}}"
                 },
             {% endfor %}
             ]
