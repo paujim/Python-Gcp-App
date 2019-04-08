@@ -25,7 +25,7 @@ def authentication(cons_key, cons_secret, acc_token, acc_secret):
 
 
 def search_tweets(keyword, total_tweets):
-    today_datetime = datetime.today().now()
+    today_datetime = datetime.today().utcnow()
     since_datetime = today_datetime - timedelta(seconds=60)
     since_date = since_datetime.strftime('%Y-%m-%d')
     api = authentication(
@@ -42,10 +42,10 @@ def search_tweets(keyword, total_tweets):
 
 
 def clean_tweets(tweet):
-    user_removed = re.sub(r'@[A-Za-z0-9]+', '', tweet.decode('utf-8'))
+    user_removed = re.sub(r'@[A-Za-z0-9]+:', '', tweet)
     link_removed = re.sub('https?://[A-Za-z0-9./]+', '', user_removed)
-    number_removed = re.sub('[^a-zA-Z]', ' ', link_removed)
-    lower_case_tweet = number_removed.lower()
+    # number_removed = re.sub('[^a-zA-Z]', ' ', link_removed)
+    lower_case_tweet = link_removed.lower()
     tok = WordPunctTokenizer()
     words = tok.tokenize(lower_case_tweet)
     clean_tweet = (' '.join(words)).strip()
@@ -56,7 +56,7 @@ def fetch_tweets(keyword, total_tweets):
     tweets = search_tweets(keyword, total_tweets)
     messages = []
     for tweet in tweets:
-        cleaned_tweet = clean_tweets(tweet.text.encode('utf-8'))
+        cleaned_tweet = clean_tweets(tweet.text)
         timestamp = tweet.created_at.isoformat()
         location = tweet.user.location
         messages.append(dict(
