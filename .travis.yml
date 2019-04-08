@@ -4,7 +4,7 @@ python:
 env:
   - TESTPATH=WebApp
   - TESTPATH=Consumer
-  - TESTPATH=PRODUCER
+  - TESTPATH=Producer
 # command to install dependencies
 install:
   - pip install -r $TESTPATH/requirements.txt
