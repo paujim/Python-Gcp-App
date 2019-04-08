@@ -1,9 +1,12 @@
 language: python
 python:
   - "3.6"
+env:
+  - TESTPATH=WebApp
+  - TESTPATH=Consumer
 # command to install dependencies
 install:
-  - pip install -r WebApp/requirements.txt
+  - pip install -r $TESTPATH/requirements.txt
 # command to run tests
 script:
-  - pytest -q WebApp/test_main.py
+  - pytest -q $TESTPATH/test_main.py
