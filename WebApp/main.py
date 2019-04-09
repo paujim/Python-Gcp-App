@@ -7,7 +7,7 @@ import os
 
 
 def gen_connection_string():
-    if not os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
+    if not os.environ.get('GAE_INSTANCE'):
         return 'mysql+pymysql://user:password@127.0.0.1:3306/tweet'
     else:
         client = datastore.Client()
