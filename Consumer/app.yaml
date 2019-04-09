@@ -13,4 +13,9 @@ resources:
   memory_gb: 1.0
   disk_size_gb: 10
 
-    
+beta_settings:
+    cloud_sql_instances: tweets-sentiment-235108:australia-southeast1:mysql-tweet-app-instance
+
+env_variables:
+    CLOUD_SQL_INSTANCE_NAME: tweets-sentiment-235108:australia-southeast1:mysql-tweet-app-instance
+
