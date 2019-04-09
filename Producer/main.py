@@ -6,15 +6,29 @@ from flask import jsonify
 from google.cloud import pubsub
 from datetime import datetime, timedelta
 from nltk.tokenize import WordPunctTokenizer
+from google.cloud import datastore
+
+GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT')
+
+
+def get_setting(key):
+    if GOOGLE_CLOUD_PROJECT == 'NOT_SET':
+        return None
+
+    client = datastore.Client()
+    entity = client.get(client.key('settings', key))
+    if entity is None:
+        return None
+    return entity.get('value')
+
 
 app = Flask(__name__)
 
-ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
-CONSUMER_KEY = os.environ['CONSUMER_KEY']
-CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-GOOGLE_CLOUD_PROJECT = os.environ['GOOGLE_CLOUD_PROJECT']
-PUB_SUB_TOPIC = os.environ['PUB_SUB_TOPIC']
+ACCESS_TOKEN = get_setting('ACCESS_TOKEN')
+ACCESS_TOKEN_SECRET = get_setting('ACCESS_TOKEN_SECRET')
+CONSUMER_KEY = get_setting('CONSUMER_KEY')
+CONSUMER_SECRET = get_setting('CONSUMER_SECRET')
+PUB_SUB_TOPIC = get_setting('PUB_SUB_TOPIC')
 
 
 def authentication(cons_key, cons_secret, acc_token, acc_secret):

@@ -3,3 +3,4 @@ gunicorn==19.9.0
 google-cloud-pubsub==0.39.1
 nltk==3.4
 tweepy==3.5.0
+google-cloud-datastore==1.7.3

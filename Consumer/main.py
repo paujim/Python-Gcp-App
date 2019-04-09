@@ -1,18 +1,21 @@
-from flask import Flask, request, jsonify
-from google.cloud import language
-import base64
-from google.cloud.language import enums
-from google.cloud.language import types
 import os
-from flask_sqlalchemy import SQLAlchemy
+import base64
 import dateutil.parser
+from flask import Flask, request, jsonify
+from google.cloud import language,datastore
+from google.cloud.language import enums, types
+from flask_sqlalchemy import SQLAlchemy
 
 
 def gen_connection_string():
     if not os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
         return 'mysql+pymysql://user:password@127.0.0.1:3306/tweet'
     else:
-        return os.environ['SQLALCHEMY_DATABASE_URI']
+        client = datastore.Client()
+        entity = client.get(client.key('settings', 'SQLALCHEMY_DATABASE_URI'))
+        if entity is None:
+            return None
+        return entity.get('value')
 
 
 app = Flask(__name__)
