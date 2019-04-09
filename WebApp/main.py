@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import Schema, fields
+from google.cloud import datastore
 import os
 
 
@@ -9,7 +10,11 @@ def gen_connection_string():
     if not os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
         return 'mysql+pymysql://user:password@127.0.0.1:3306/tweet'
     else:
-        return os.environ['SQLALCHEMY_DATABASE_URI']
+        client = datastore.Client()
+        entity = client.get(client.key('settings', 'SQLALCHEMY_DATABASE_URI'))
+        if entity is None:
+            return None
+        return entity.get('value')
 
 
 app = Flask(__name__)
@@ -50,10 +55,6 @@ class TweetSerializer(Schema):
 def fetch_data():
     tweets = Tweet.query.group_by(Tweet.timestamp, Tweet.text).order_by(Tweet.timestamp.desc()).limit(5).all()
     schema = TweetSerializer(many=True, only=('text', 'keyword', 'location', 'timestamp', 'score', 'magnitude'))
-    # result = []
-    # for tweet in tweets:
-    #      result.append((tweet.sentiment_score, tweet.sentiment_magnitude, tweet.timestamp, tweet.text))
-    # return result
     return schema.dump(tweets).data
 
 
