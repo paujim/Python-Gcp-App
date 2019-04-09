@@ -4,3 +4,4 @@ google-cloud-language==1.1.1
 PyMySQL==0.9.3
 Flask-SQLAlchemy==2.3.2
 python-dateutil==2.8.0
+google-cloud-datastore==1.7.3
