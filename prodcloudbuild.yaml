@@ -1,8 +1,8 @@
 steps:
 # Clone
-#- name: gcr.io/cloud-builders/git
-#  args: ['clone', 'https://github.com/paujim/Python-Stuff.git']
+- name: gcr.io/cloud-builders/git
+  args: ['clone', 'https://github.com/paujim/Python-Stuff.git']
 # Deploy to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', '--version=app-flex']
-  dir: 'WebApp'
+  args: ['app', 'deploy', '--version=app-pro']
+  dir: 'Producer'
