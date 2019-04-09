@@ -3,12 +3,7 @@ from unittest import TestCase, mock
 from test.support import EnvironmentVarGuard
 
 with EnvironmentVarGuard() as env:
-    env['ACCESS_TOKEN'] = 'ACCESS_TOKEN'
-    env['ACCESS_TOKEN_SECRET'] = 'ACCESS_TOKEN_SECRET'
-    env['CONSUMER_KEY'] = 'CONSUMER_KEY'
-    env['CONSUMER_SECRET'] = 'CONSUMER_SECRET'
-    env['GOOGLE_CLOUD_PROJECT'] = 'GOOGLE_CLOUD_PROJECT'
-    env['PUB_SUB_TOPIC'] = 'PUB_SUB_TOPIC'
+    env['GOOGLE_CLOUD_PROJECT'] = 'NOT_SET'
 
     import main
 
