@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:600');
+
+
+    body {
+        font-family: "Poppins";
+        height: 100vh;
+        padding: 1em;
+        overflow: hidden;
+    }
+
+    .background-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        user-select: none;
+    }
+    .background-wrapper h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 30vmax;
+            color: #dadada;
+            letter-spacing: 0.025em;
+            margin: 0;
+            transition: 750ms ease-in-out;
+    }
+
+    p {
+        color: #121212;
+        font-size: calc(1em + 3vmin);
+        position: fixed;
+        bottom: 1rem;
+        right: 1.5rem;
+        margin: 0;
+        text-align: right;
+    }
+    </style>
+</head>
+<body>
+<div class="background-wrapper">
+	<h1 id="visual">404</h1>
+</div>
+<p>The page you’re looking for does not exist.</p>
+</body>
+</html>

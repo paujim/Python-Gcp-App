@@ -80,5 +80,10 @@ def chart():
     return render_template('chart.html', tweets=tweets, keyword="dogs", sentiment=classify_sentiment(tweets))
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8080, debug=True)
