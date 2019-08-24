@@ -1,4 +1,4 @@
-# Python-Stuff
+# Python-Gcp-App
 A sample app in python
 - GAE
 - PUBSUB
