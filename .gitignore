@@ -1,3 +1,6 @@
 WebApp/.idea/
 Consumer/.idea/
 Producer/.idea/
+env/
+WebApp/.vscode/
+WebApp/__pycache__/
